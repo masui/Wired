@@ -1,0 +1,257 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="../wired.css" type="text/css">
+<title>例示インタフェースの逆襲</title>
+</head>
+<body>
+
+<div style='width:600px'>
+
+<a href="../index.html">トップ</a>
+
+<h2>第44回 例示インタフェースの逆襲</h2>
+
+
+<h3>ブラウザ上でのプログラミング</h3>
+
+Web上のサービスが増えてきた結果、
+多くの仕事をブラウザ上で実行できるようになってきました。
+
+Webブラウザ上での作業が増えてくると、
+様々なサイトを利用してルーチンワークを行なう機会が増え、
+ブラウザで上の作業を自動化したくなることが多くなると思われます。
+
+<p>
+JavaScriptを利用するとブラウザ上の作業の自動化を行なうことができます。
+例えば以下のようなJavaScriptプログラムをブラウザのURLフィールドに入力すると
+現在のページの背景を青くすることができます。
+
+<blockquote>
+<pre>
+javascript:(function(){document.getElementById('srchtxt').value='wiredvision';})()</pre>
+</blockquote>
+<!-- javascript:(function(){document.body.style.backgroundColor='blue';})() -->
+
+この例はあまり有用なものではありませんが、
+任意のJavaScriptプログラムをブラウザのブックマークに
+「ブックマークレット」として登録しておくことにより、
+ブラウザのブックマークメニューからJavaScriptプログラムを呼び出して利用することができます。
+
+<p>
+普通のブラウザ操作を
+JavaScriptのプログラムとして表現するのが面倒なことがあります。
+例えば
+<a href="http://www.yahoo.co.jp/index.html">Yahoo! Japan</a>
+の検索ページに&#147;wiredvision&#148;という検索文字列を入力するには
+以下のようなJavaScriptプログラムが必要になります。
+
+<blockquote>
+<pre>
+document.getElementById('srchtxt').value='wiredvision';
+javascript:(function(){document.getElementById('srchtxt').value='wiredvision';})()
+</pre>
+</blockquote>
+
+Yahoo!のページのHTMLの中の&#147;srchtxt&#148;というidを持つinputタグを捜し、
+そこに&#147;wiredvision&#148;という文字列を設定するという意味になりますが、
+JavaScriptに関する詳しい知識が要るうえに、
+HTMLソースの中身まで解析しなければならないので、
+こういうプログラムを書くためにはかなりの覚悟が必要になります。
+
+<p>
+<a href="http://wiredvision.jp/blog/masui/200708/200708311000.html">なんでも自動処理</a>の回で紹介した
+<a href="http://groups.csail.mit.edu/uid/chickenfoot/">Chickenfoot</a>を利用すると、
+ブラウザ操作を簡潔にプログラムとして表現することができるようになります。
+たとえば前述のような処理は以下のように記述することができます。
+
+<blockquote>
+<pre>
+enter('ウェブ','wiredvision');
+</pre>
+</blockquote>
+
+また以下のようなChickenfootプログラムを実行すると、
+twitterで「執筆中なう」とつぶやくことができます。
+
+<blockquote>
+<pre>
+go('twitter.com')
+enter('いまどうしてる','執筆中なう')
+click('ツイート')
+</pre>
+</blockquote>
+
+Chickenfootでは
+条件分岐やループのようなJavaScriptの機能も使えますし、
+表示されている文字列をパタンで検索したり
+文字列を置き換えたりといった
+便利な関数が利用できるようになっています。
+例えば以下のChickenfootプログラムを動かすと
+ページ内に表示されている&#147;情報&#148;という文字が
+すべて&#147;妄想&#148;に置き換えられます。
+
+<blockquote>
+<pre>
+for each (word in find(/情報/)){
+  replace(word, "妄想")
+}
+</pre>
+</blockquote>
+
+<a href="http://ja.wikipedia.org/wiki/%E6%83%85%E5%A0%B1">Wikipediaの「情報」のページ</a>で
+このプログラムを適用すると、
+以下のようにすべての「情報」が「妄想」になってしまいます。
+
+<blockquote>
+<img src="http://gyazo.com/1e43d71cef9fc5221509977b97c89bfd.png">
+</blockquote>
+
+
+<h3>例示によるブラウザプログラミング</h3>
+
+Chickenfootを利用すると
+ブラウザ上の操作を比較的楽にプログラミングできるので便利ですが、
+伝統的なテキストベースのプログラミングの方法にのっとっているため、
+テキストベースのプログラミングに慣れた人でないと活用するのは難しいと思われます。
+テキストで動作を指示するのではなく、
+実際にユーザがブラウザを操作することによって
+指示を与える「例示プログラミング」手法を利用すれば、
+より簡単にプログラミングを行なうことができます。
+
+<p>
+誰でも各種の自動化を行なうことができるようにするためには、
+誰もが利用できるような
+「エンドユーザプログラミング」環境を用意するべきだという考えがあります、
+一方、
+プログラムのことなど勉強しなくても、
+このように動いて欲しいという例を示せば
+必要なプログラムが自動的に作成されるという
+「例示プログラミング」システムを利用する方が良いという考えもあります。
+
+Chickenfootはエンドユーザプログラミング環境をサポートするものですが、
+<code>click('ツイート')</code>
+のようなテキストでクリック操作を表現するよりは
+<img src="http://gyazo.com/95648991eb00eb373dcdc33194c11b72.png" height=20>
+のようなボタンを実際にクリックする方がわかりやすいでしょうから、
+ブラウザ操作をプログラミングする場合は
+例示プログラミングを利用する方が便利なことが多そうです。
+
+ブラウザ上のユーザの操作を記録して後で再生可能にする
+例示プログラミングシステムがいくつか提案されています。
+
+<h4>CoScripter</h4>
+
+CoScripterはブラウザ上でのユーザ操作を記録して
+後で再生することができるシステムです。
+
+CoScripterをサイドバーに表示した後でtwitterサイトを表示し、
+「執筆中なう」と入力してから「ツイート」ボタンをクリックすると、
+以下のようなスクリプトが生成されます。
+
+<blockquote>
+<pre>
+go to “twitter.com”
+enter “執筆中なう” into the “いまどうしてる？” textbox
+click the “ツイート” link
+</pre>
+</blockquote>
+
+Chickenfootと同じようなプログラムになっていますが、
+このテキストはブラウザ操作から自動的に生成されたものであり、
+動作を確認しながら生成しているので
+エラーが含まれている可能性は低いと思われます。
+生成したスクリプトをセーブすると自動的にCoScripterのWikiで共有され、
+後で呼び出すことが可能になっています。
+
+<p>
+<img src="http://gyazo.com/8aba5e58fb92dff387454e7a466deb9b.png">
+<p>
+
+CoScripterで操作を記録する場合は
+記録したい操作の開始/終了を適切に指定する必要があります。
+キーボードマクロでもこれは同様なのですが、
+記録の開始と終了のタイミングを間違うこともありますし、
+記録しておけば良かったと後で気付くこともあります。
+
+ユーザの記録は常に記録しておき、
+必要になったときに切り出して再利用できるようにした
+ActionShot
+というシステムも開発されています。
+
+<h4>iMacros</h4>
+
+iOpusの
+<a href="https://addons.mozilla.org/ja/firefox/addon/3863/">iMacros</a>も、
+Firefox上の操作列を記録できる拡張機能です。
+iMacrosを利用すると、
+前述のブラウザ操作は以下のようなスクリプトとして記録され、
+再実行可能になります。
+
+<pre>
+URL GOTO=http://twitter.com/
+TAG POS=1 TYPE=TEXTAREA FORM=ACTION:http://twitter.com/status/update ATTR=ID:status CONTENT=執筆中なう
+TAG POS=1 TYPE=SPAN ATTR=TXT:ツイート
+</pre>
+
+<p>
+CoScripterやiMacrosのような例示プログラミングシステムを利用すると
+リンクをクリックしたりテキストを入力したりといった
+普通のブラウザ操作を簡単にプログラムとして記録することができますが、
+繰り返し操作や条件分岐を指定することはできませんし、
+ページ内の文字列を置き換えるといった操作をプログラミングすることもできません。
+
+<!--
+テキストを入力したりページを移動したりといった普通のブラウザ操作を
+「操作例」として記録しておき、これを後で再利用できるようにすることにより、
+面倒な操作をある程度自動化することができるようになります。
+これは単純な例示プログラミングであり、
+-->
+
+<h3>ブラウザ上の繰り返し操作支援システム</h3>
+
+記録したキー操作を後で再生する「キーボードマクロ機能」を
+様々なテキストエディタで利用することができますが、
+<a href="http://wiki.github.com/mooz/keysnail/keysnail-japanese">KeySnail</a>
+というFirefoxの拡張機能を利用すると、
+ブラウザのテキスト入力枠でキーボードマクロを利用できるようになります。
+
+KeySnailはユーザが定義するプラグインを利用できるようになっており、
+<a href="http://github.com/mooz/keysnail/raw/master/plugins/dmacro.ks.js">dmacro.ks.js</a>
+というプラグインを利用すると
+<a href="http://wiredvision.jp/blog/masui/200708/200708311000.html">なんでも自動処理</a>の回で紹介した
+<a href="http://pitecan.com/DynamicMacro">DynamicMacro</a>を
+ブラウザ上で利用できるようになります。
+ブラウザ上で繰り返されるテキスト編集操作を自動化できるので大変便利です。
+
+<p>
+<object width="480" height="385">
+<param name="movie" value="http://www.youtube.com/v/payhPO7Zi4w&hl=ja_JP&fs=1&"></param>
+<param name="allowFullScreen" value="true"></param>
+<param name="allowscriptaccess" value="always"></param>
+<embed src="http://www.youtube.com/v/payhPO7Zi4w&hl=ja_JP&fs=1&" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed>
+</object>
+<p>
+
+例示プログラミングシステムの研究は最近あまり盛んではありませんが、
+ブラウザというプラットフォームを多くの人が利用するようになってきた現在、
+ブラウザ上での使いやすい例示プログラミングシステムの有用性は高まっています。
+
+ブラウザ上で定型処理が必要になったときは
+今回紹介したようなシステムを試してみる価値はあるでしょう。
+
+<!--
+ Sikuli
+  SikuliでGUIの自動テスト、みたいな[[http://masui.sfc.keio.ac.jp/48bda82c1af9f7d6ab05bf88b1b1340d.pdf 論文]]があった
+-->
+
+<p>
+<hr>
+<span style="font-size:7pt;">
+$Date: 2010-06-17 02:06:49 +0900 (Thu, 17 Jun 2010) $
+</span>
+
+</div>
+
+</body>
+</html>
