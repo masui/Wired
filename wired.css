@@ -1,0 +1,15 @@
+body {
+	background-color:#008800;
+	color: white;
+}
+a {
+	color:yellow;
+}
+b {
+    color:#ffff00;
+}
+pre {
+    background-color:#eee;
+    color:black;
+    padding: 10;
+}

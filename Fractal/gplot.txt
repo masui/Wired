@@ -1,0 +1,1 @@
+set logscale xy; plot "< cat" using ($0+1):($1) # log-log
